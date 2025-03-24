@@ -298,3 +298,382 @@ Dit Laravel-project biedt een Evenementbeheersysteem met drie bestaande modellen
 - Ik kan real-time updates krijgen tijdens het evenement
 - Ik kan mijn communicatievoorkeuren beheren
 - Ik kan alle communicatie op één plek raadplegen
+
+## ERD
+```mermaid
+erDiagram
+    Event ||--o{ Ticket : "biedt"
+    Event ||--o{ Session : "heeft"
+    Event ||--o{ Survey : "heeft"
+    Event ||--o{ Budget : "heeft"
+    Event ||--o{ MarketingCampaign : "heeft"
+    Event ||--o{ Resource : "gebruikt"
+    Event ||--o{ EventStaff : "heeft toegewezen"
+    Event }|--|{ Sponsor : "heeft"
+    Event }|--|{ Exhibitor : "heeft"
+    Venue ||--o{ Event : "host"
+    Venue ||--o{ Room : "heeft"
+    Room ||--o{ Session : "vindt plaats in"
+    User ||--o{ Ticket : "koopt"
+    User ||--o{ Registration : "maakt"
+    User ||--o{ Feedback : "geeft"
+    User ||--o{ Connection : "maakt"
+    User ||--o{ BadgeInfo : "heeft"
+    User ||--o{ PersonalAgenda : "heeft"
+    User }|--|{ EventStaff : "kan zijn"
+    Speaker ||--o{ Session : "presenteert"
+    Registration ||--|| Badge : "genereert"
+    Registration }|--|| Event : "voor"
+    Session }|--|{ Track : "behoort tot"
+    Session ||--o{ Content : "heeft"
+    Session ||--o{ Feedback : "ontvangt"
+    Session ||--o{ Attendance : "heeft"
+    Session ||--o{ Resource : "gebruikt"
+    Ticket ||--|| TicketType : "is van"
+    Exhibitor ||--o{ Booth : "heeft"
+    Exhibitor ||--o{ ExhibitorResource : "vraagt"
+    Sponsor ||--|| SponsorPackage : "kiest"
+    CheckIn }|--|| Registration : "voor"
+    Content }|--|| ContentAccess : "heeft"
+    Communication }|--|| User : "ontvangt"
+    Communication }|--|| Event : "voor"
+
+    Event {
+        int id PK
+        string name
+        string description
+        datetime start_date
+        datetime end_date
+        boolean is_virtual
+        int venue_id FK
+        int organizer_id FK
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    Venue {
+        int id PK
+        string name
+        string address
+        string city
+        string country
+        int capacity
+        datetime created_at
+        datetime updated_at
+    }
+
+    Room {
+        int id PK
+        int venue_id FK
+        string name
+        int capacity
+        string setup_type
+        string equipment
+        datetime created_at
+        datetime updated_at
+    }
+
+    User {
+        int id PK
+        string name
+        string email
+        string password
+        string role
+        string company
+        string title
+        string bio
+        string profile_image
+        string preferences
+        datetime created_at
+        datetime updated_at
+    }
+
+    Speaker {
+        int id PK
+        int user_id FK
+        string bio
+        string photo
+        string requirements
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    Session {
+        int id PK
+        int event_id FK
+        int room_id FK
+        int speaker_id FK
+        int track_id FK
+        string title
+        string description
+        datetime start_time
+        datetime end_time
+        int capacity
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    Track {
+        int id PK
+        int event_id FK
+        string name
+        string description
+        string color
+        datetime created_at
+        datetime updated_at
+    }
+
+    Ticket {
+        int id PK
+        int event_id FK
+        int user_id FK
+        int ticket_type_id FK
+        string status
+        datetime purchase_date
+        string reference_code
+        datetime created_at
+        datetime updated_at
+    }
+
+    TicketType {
+        int id PK
+        int event_id FK
+        string name
+        float price
+        int quantity
+        datetime sales_start
+        datetime sales_end
+        string description
+        datetime created_at
+        datetime updated_at
+    }
+
+    Registration {
+        int id PK
+        int user_id FK
+        int event_id FK
+        string status
+        json preferences
+        datetime registered_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    Badge {
+        int id PK
+        int registration_id FK
+        string badge_number
+        boolean printed
+        datetime created_at
+        datetime updated_at
+    }
+
+    Exhibitor {
+        int id PK
+        int event_id FK
+        string company_name
+        string description
+        string logo
+        string contact_name
+        string contact_email
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    Booth {
+        int id PK
+        int exhibitor_id FK
+        string location
+        int size
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    Sponsor {
+        int id PK
+        int event_id FK
+        int sponsor_package_id FK
+        string company_name
+        string logo
+        string website
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    SponsorPackage {
+        int id PK
+        int event_id FK
+        string name
+        float price
+        string benefits
+        int available_spots
+        datetime created_at
+        datetime updated_at
+    }
+
+    Connection {
+        int id PK
+        int requester_id FK
+        int receiver_id FK
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    CheckIn {
+        int id PK
+        int registration_id FK
+        int staff_id FK
+        datetime check_in_time
+        string method
+        datetime created_at
+        datetime updated_at
+    }
+
+    Survey {
+        int id PK
+        int event_id FK
+        string title
+        string description
+        json questions
+        datetime distribution_date
+        datetime created_at
+        datetime updated_at
+    }
+
+    Feedback {
+        int id PK
+        int user_id FK
+        int session_id FK
+        int rating
+        string comments
+        datetime created_at
+        datetime updated_at
+    }
+
+    Budget {
+        int id PK
+        int event_id FK
+        string category
+        string item
+        float budgeted_amount
+        float actual_amount
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    MarketingCampaign {
+        int id PK
+        int event_id FK
+        string name
+        string channel
+        string content
+        datetime start_date
+        datetime end_date
+        float cost
+        json metrics
+        datetime created_at
+        datetime updated_at
+    }
+
+    Content {
+        int id PK
+        int session_id FK
+        string title
+        string file_type
+        string file_path
+        datetime created_at
+        datetime updated_at
+    }
+
+    ContentAccess {
+        int id PK
+        int content_id FK
+        string access_level
+        datetime created_at
+        datetime updated_at
+    }
+
+    PersonalAgenda {
+        int id PK
+        int user_id FK
+        int session_id FK
+        datetime created_at
+        datetime updated_at
+    }
+
+    Attendance {
+        int id PK
+        int session_id FK
+        int user_id FK
+        boolean attended
+        datetime check_in_time
+        datetime created_at
+        datetime updated_at
+    }
+
+    EventStaff {
+        int id PK
+        int event_id FK
+        int user_id FK
+        string role
+        string responsibilities
+        json schedule
+        datetime created_at
+        datetime updated_at
+    }
+
+    Resource {
+        int id PK
+        int event_id FK
+        int session_id FK
+        string name
+        string type
+        int quantity
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    ExhibitorResource {
+        int id PK
+        int exhibitor_id FK
+        string resource_name
+        int quantity
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    Communication {
+        int id PK
+        int event_id FK
+        string type
+        string subject
+        string content
+        json recipients
+        datetime scheduled_at
+        boolean sent
+        json metrics
+        datetime created_at
+        datetime updated_at
+    }
+
+    BadgeInfo {
+        int id PK
+        int user_id FK
+        string name
+        string company
+        string title
+        string custom_fields
+        datetime created_at
+        datetime updated_at
+    }
+```
