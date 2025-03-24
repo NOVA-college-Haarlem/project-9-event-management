@@ -1,4 +1,4 @@
-# Evenementbeheersysteem - Gebruikersverhalen
+# Evenementbeheersysteem
 
 ## Projectoverzicht
 Dit Laravel-project biedt een Evenementbeheersysteem met drie bestaande modellen: Evenement, Locatie en het standaard Laravel Gebruikersmodel. Het systeem is ontworpen om Laravel-vaardigheden te tonen in CRUD-operaties, relaties, validatie, routing en middleware.
