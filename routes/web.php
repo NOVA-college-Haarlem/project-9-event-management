@@ -21,12 +21,12 @@ Route::name("events.")->prefix("events")->group(function () {
 });
 
 Route::name("tickets.")->prefix("tickets")->group(function () {
-    Route::get('/', [TicketsController::class, 'index']);
-    Route::get('/create', [TicketsController::class, 'create']);
-    Route::post('/', [TicketsController::class, 'store']);
-    Route::get('/edit/{ticket}', [TicketsController::class, 'edit']);
-    Route::post('/update/{ticket}', [TicketsController::class, 'update']);
-    Route::delete('/delete/{ticket}', [TicketsController::class, 'delete']);
+    Route::get('/', [TicketsController::class, 'index'])->name('index');
+    Route::get('/create', [TicketsController::class, 'create'])->name('create');
+    Route::post('/', [TicketsController::class, 'store'])->name('store');
+    Route::get('/edit/{ticket}', [TicketsController::class, 'edit'])->name('edit');
+    Route::post('/update/{ticket}', [TicketsController::class, 'update'])->name('update');
+    Route::delete('/delete/{ticket}', [TicketsController::class, 'delete'])->name('delete');
 });
 
 Route::get('/dashboard', function () {
