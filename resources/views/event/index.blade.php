@@ -1,9 +1,11 @@
 <x-app-layout>
     <div class="container">
         <h2>All Events</h2>
-        <a href="{{ route('events.create') }}" class="btn btn-success btn-lg">
-            ➕ Create New Event
-        </a>
+        <div class="d-flex gap-2">
+            <a href="{{ route('home') }}" class="btn btn-outline-secondary">🏠 Home</a>
+            <a href="{{ route('venues.index') }}" class="btn btn-outline-primary">📍 Venues</a>
+            <a href="{{ route('events.create') }}" class="btn btn-success">➕ Create Event</a>
+        </div>
         @if ($events->isEmpty())
             <p>No events found.</p>
         @else
