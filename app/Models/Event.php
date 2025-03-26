@@ -25,16 +25,12 @@ class Event extends Model
         return $this->belongsTo(Venue::class);
     }
 
-    // Relatie met Organizer (als dit een gebruiker is, pas dan de modelnaam aan)
-    public function organizer()
-    {
-        return $this->belongsTo(User::class, 'organizer_id');
-    }
+
 
     // Tickets
     public function tickets()
     {
-        return $this->hasMany(Ticket::class);
+        return $this->hasMany(Ticket::class, 'id');
     }
 
     // Sessions

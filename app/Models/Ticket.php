@@ -14,4 +14,16 @@ class Ticket extends Model
     protected $casts = [
         'purchase_date' => 'datetime',
     ];
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'event_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function ticketType()
+    {
+        return $this->belongsTo(TicketType::class, 'ticket_type_id');
+    }
 }
