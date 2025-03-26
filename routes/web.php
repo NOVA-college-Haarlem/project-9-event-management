@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\TicketsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,8 +18,15 @@ Route::name("events.")->prefix("events")->group(function () {
     Route::get('/edit/{event}', [EventsController::class, 'edit'])->name('edit');
     Route::post('/update/{event}', [EventsController::class, 'update'])->name('update');
     Route::delete('/delete/{event}', [EventsController::class, 'delete'])->name('delete');
+});
 
-
+Route::name("tickets.")->prefix("tickets")->group(function () {
+    Route::get('/', [TicketsController::class, 'index']);
+    Route::get('/create', [TicketsController::class, 'create']);
+    Route::post('/', [TicketsController::class, 'store']);
+    Route::get('/edit/{ticket}', [TicketsController::class, 'edit']);
+    Route::post('/update/{ticket}', [TicketsController::class, 'update']);
+    Route::delete('/delete/{ticket}', [TicketsController::class, 'delete']);
 });
 
 Route::get('/dashboard', function () {
@@ -31,5 +39,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
-
+require __DIR__ . '/auth.php';
