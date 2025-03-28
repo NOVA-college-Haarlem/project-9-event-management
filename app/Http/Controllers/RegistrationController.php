@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Mail;
 
 class RegistrationController extends Controller
 {
+
+    public function index()
+    {
+        $registrations = \App\Models\Registration::with(['user', 'event.venue'])->latest()->get();
+        return view('registrations.index', compact('registrations'));
+    }
+
     public function create($eventId)
     {
         $event = Event::findOrFail($eventId);
@@ -56,5 +63,39 @@ class RegistrationController extends Controller
 
         return redirect()->route('events.index')->with('success', 'Registration submitted!');
     }
+
+    public function edit($id)
+    {
+        $registration = Registration::with(['user', 'event.venue'])->findOrFail($id);
+        return view('registrations.edit', compact('registration'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $registration = Registration::findOrFail($id);
+        $request->validate([
+            'status' => 'required|in:pending,approved,rejected',
+        ]);
+
+        $registration->status = $request->status;
+        $registration->save();
+
+        return redirect()->route('registrations.index')->with('success', 'Registration updated.');
+    }
+
+    public function destroy($id)
+    {
+        Registration::destroy($id);
+        return redirect()->route('registrations.index')->with('success', 'Registration deleted.');
+    }
+
+    public function delete(\App\Models\Registration $registration)
+    {
+        $registration->delete();
+
+        return redirect()->route('registrations.index')->with('success', 'Registration deleted successfully.');
+    }
+
+
 
 }
