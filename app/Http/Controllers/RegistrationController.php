@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Str;
+use App\Mail\RegistrationConfirmationMail;
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -24,10 +26,11 @@ class RegistrationController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'address' => 'nullable',
-            'meal' => 'required',
-            'workshop' => 'required',
+            
             'event_id' => 'required|exists:events,id',
         ]);
+
+        $event = Event::findOrFail($request->event_id);
 
         // Check of user bestaat of maak aan
         $user = User::firstOrCreate(
@@ -44,12 +47,12 @@ class RegistrationController extends Controller
             'event_id' => $request->event_id,
             'status' => 'pending',
             'preferences' => json_encode([
-                'meal' => $request->meal,
-                'workshop' => $request->workshop,
                 'address' => $request->address,
             ]),
             'registered_at' => now(),
         ]);
+
+        Mail::to('test@example.com')->send(new RegistrationConfirmationMail($event, $request->name));
 
         return redirect()->route('events.index')->with('success', 'Registration submitted!');
     }

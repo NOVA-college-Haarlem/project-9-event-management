@@ -2,6 +2,9 @@
     <div class="container mt-4">
         <h2>Register for Event</h2>
 
+        <p class="text-muted">You're registering for: <strong>{{ $event->name }}</strong></p>
+
+
         <form action="{{ route('registrations.store', ['event' => $event->id]) }}" method="POST">
 
             @csrf
@@ -22,23 +25,6 @@
                 <input name="address" class="form-control">
             </div>
 
-            <!-- Evenementvoorkeuren -->
-            <div class="mb-3">
-                <label class="form-label">Meal Preference</label>
-                <select name="meal" class="form-control">
-                    <option value="standard">Standard</option>
-                    <option value="vegetarian">Vegetarian</option>
-                    <option value="vegan">Vegan</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Workshop</label>
-                <select name="workshop" class="form-control">
-                    <option value="session1">Workshop Session 1</option>
-                    <option value="session2">Workshop Session 2</option>
-                </select>
-            </div>
 
             <input type="hidden" name="event_id" value="{{ $event->id }}">
 
