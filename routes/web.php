@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\TicketsController;
 use App\Http\Controllers\VenuesController;
+use App\Http\Controllers\RegistrationController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,5 +51,17 @@ Route::prefix('venues')->name('venues.')->group(function () {
     Route::get('/create', [VenuesController::class, 'create'])->name('create');
     Route::post('/', [VenuesController::class, 'store'])->name('store');
 });
+
+Route::prefix('registrations')->name('registrations.')->middleware('auth')->group(function () {
+
+    Route::get('/', [RegistrationController::class, 'index'])->name('index');
+    Route::get('/create/{event}', [RegistrationController::class, 'create'])->name('create');
+    Route::post('/store/{event}', [RegistrationController::class, 'store'])->name('store');
+    Route::get('/edit/{registration}', [RegistrationController::class, 'edit'])->name('edit');
+    Route::put('/update/{registration}', [RegistrationController::class, 'update'])->name('update');
+    Route::delete('/delete/{registration}', [RegistrationController::class, 'delete'])->name('destroy');
+
+});
+
 
 require __DIR__ . '/auth.php';

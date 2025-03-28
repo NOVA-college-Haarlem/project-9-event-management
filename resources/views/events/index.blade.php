@@ -37,6 +37,7 @@
                                     @method('DELETE')
                                     <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">🗑️ Delete</button>
                                 </form>
+                                <a href="{{ route('registrations.create', ['event' => $event->id]) }}" class="btn btn-sm btn-primary">📝 Register</a>
                             </td>
                         </tr>
                     @endforeach
