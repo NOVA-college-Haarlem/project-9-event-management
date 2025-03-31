@@ -33,6 +33,11 @@ class Event extends Model
     {
         return $this->hasMany(Ticket::class, 'id');
     }
+    // Ticket Types
+    public function ticketTypes()
+    {
+        return $this->hasMany(TicketType::class, 'id');
+    }
 
     // Sessions
     public function sessions()
