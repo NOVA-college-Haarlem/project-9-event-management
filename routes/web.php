@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\Ticket_TypeController;
 use App\Http\Controllers\TicketsController;
 use App\Http\Controllers\VenuesController;
 
@@ -33,6 +34,15 @@ Route::name("tickets.")->prefix("tickets")->group(function () {
     Route::post('/update/{ticket}', [TicketsController::class, 'update'])->name('update');
     Route::delete('/delete/{ticket}', [TicketsController::class, 'delete'])->name('delete');
 });
+Route::name("ticket_types.")->prefix("ticket_types")->group(function () {
+    Route::get('/', [Ticket_TypeController::class, 'index'])->name('index');
+    Route::get('/create', [Ticket_TypeController::class, 'create'])->name('create');
+    Route::post('/', [Ticket_TypeController::class, 'store'])->name('store');
+    Route::get('/edit/{ticket_type}', [Ticket_TypeController::class, 'edit'])->name('edit');
+    Route::post('/update/{ticket_type}', [Ticket_TypeController::class, 'update'])->name('update');
+    Route::delete('/delete/{ticket_type}', [Ticket_TypeController::class, 'delete'])->name('delete');
+});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

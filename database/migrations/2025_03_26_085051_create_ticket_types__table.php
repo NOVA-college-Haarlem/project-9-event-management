@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('ticket_types', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('event_id');
-            $table->unsignedBigInteger('tickets_id');
+            $table->unsignedBigInteger('event_id'); 
             $table->string('name');
             $table->float('price');
             $table->integer('quantity');
@@ -25,7 +24,6 @@ return new class extends Migration
 
             // Foreign key
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-            $table->foreign('tickets_id')->references('id')->on('tickets')->onDelete('cascade');
             
         });
     }
