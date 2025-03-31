@@ -6,6 +6,7 @@ use App\Models\Ticket;
 use App\Models\TicketType;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\TicketRequest;
 
 class TicketsController extends Controller
 {
@@ -24,7 +25,7 @@ class TicketsController extends Controller
         return view('tickets.create', compact('tickets', 'events', 'ticketTypes', 'users'));
     }
 
-    public function store(Request $request)
+    public function store(TicketRequest $request)
     {
         $ticket = new Ticket();
         
@@ -38,14 +39,15 @@ class TicketsController extends Controller
         return redirect('/tickets');
     }
 
-    private function save(Ticket $ticket, Request $request): void
+    private function save(Ticket $ticket, TicketRequest $request): void
     {
+        
         $ticket->event_id = $request->event_id;
         $ticket->user_id = $request->user_id;
         $ticket->ticket_types_id = $request->ticket_types_id;
         $ticket->status = $request->status;
         $ticket->purchase_date = $request->purchase_date;
-        $ticket->reference_code = $request->reference_code;
+        $ticket->reference_code = $ticket->reference_code;
         $ticket->save();
     }
 
