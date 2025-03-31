@@ -91,4 +91,9 @@ class Event extends Model
     {
         return $this->hasMany(Communication::class);
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'id');
+    }
 }

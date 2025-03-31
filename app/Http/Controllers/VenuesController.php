@@ -10,12 +10,12 @@ class VenuesController extends Controller
     public function index()
     {
         $venues = Venue::all();
-        return view('venue.index', compact('venues'));
+        return view('venues.index', compact('venues'));
     }
 
     public function create()
     {
-        return view('venue.create');
+        return view('venues.create');
     }
 
     public function store(Request $request)
