@@ -60,6 +60,8 @@ Route::prefix('venues')->name('venues.')->group(function () {
     Route::get('/', [VenuesController::class, 'index'])->name('index');
     Route::get('/create', [VenuesController::class, 'create'])->name('create');
     Route::post('/', [VenuesController::class, 'store'])->name('store');
+    Route::get('/{venue}/events', [VenuesController::class, 'events'])->name('events');
+
 });
 
 Route::prefix('registrations')->name('registrations.')->middleware('auth')->group(function () {

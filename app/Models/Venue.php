@@ -16,4 +16,9 @@ class Venue extends Model
         'country',
         'capacity',
     ];
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 }
