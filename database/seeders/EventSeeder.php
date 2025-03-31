@@ -23,6 +23,17 @@ class EventSeeder extends Seeder
             ]
         );
 
+        $venue = Venue::firstOrCreate(
+            ['id' => 2],
+            [
+                'name' => 'Philips Stadion',
+                'address' => 'Frederiklaan 10A, 5616 LX Eindhoven',
+                'city' => 'Eindhoven',
+                'country' => 'Netherlands',
+                'capacity' => 35000
+            ]
+        );
+
         // Create test user (organizer) if it doesn't exist
         $user = User::firstOrCreate(
             ['id' => 1],
@@ -41,6 +52,7 @@ class EventSeeder extends Seeder
             'end_date' => '2025-05-03 17:00:00',
             'is_virtual' => false,
             'venue_id' => $venue->id,
+            'room' => 'Room A',
             'organizer_id' => $user->id,
             'status' => 'Published',
         ]);
@@ -52,6 +64,19 @@ class EventSeeder extends Seeder
             'end_date' => '2025-06-15 22:00:00',
             'is_virtual' => true,
             'venue_id' => $venue->id,
+            'room' => 'Virtual Room 1',
+            'organizer_id' => $user->id,
+            'status' => 'Draft',
+        ]);
+
+        Event::create([
+            'name' => 'World Cup 2026',
+            'description' => 'Football',
+            'start_date' => '2026-06-11 18:00:00',
+            'end_date' => '2026-07-19 22:00:00',
+            'is_virtual' => false,
+            'venue_id' => $venue->id,
+            'room' => 'A Side',
             'organizer_id' => $user->id,
             'status' => 'Draft',
         ]);

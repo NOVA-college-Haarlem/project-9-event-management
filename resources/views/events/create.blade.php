@@ -50,6 +50,11 @@
             </div>
 
             <div class="mb-3">
+                <label for="room" class="form-label">Room (optional)</label>
+                <input type="text" name="room" class="form-control" placeholder="e.g. Room A, Vak B">
+            </div>
+
+            <div class="mb-3">
                 <label for="organizer_id" class="form-label">Organizer ID</label>
                 <input type="number" name="organizer_id" class="form-control" required>
             </div>

@@ -12,11 +12,13 @@ class RegistrationConfirmationMail extends Mailable
 
     public $event;
     public $name;
+    public $room;
 
     public function __construct($event, $name)
     {
         $this->event = $event;
         $this->name = $name;
+        $this->room = $event->room ?? null; // room ophalen vanuit het event-model
     }
 
     public function build()
@@ -26,7 +28,7 @@ class RegistrationConfirmationMail extends Mailable
                     ->with([
                         'event' => $this->event,
                         'name' => $this->name,
+                        'room' => $this->room,
                     ]);
     }
-
 }

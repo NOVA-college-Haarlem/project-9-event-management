@@ -17,6 +17,8 @@
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Virtual</th>
+                        <th>Venue</th>
+                        <th>Room</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -29,6 +31,8 @@
                             <td>{{ \Carbon\Carbon::parse($event->start_date)->format('Y-m-d H:i') }}</td>
                             <td>{{ \Carbon\Carbon::parse($event->end_date)->format('Y-m-d H:i') }}</td>
                             <td>{{ $event->is_virtual ? 'Yes' : 'No' }}</td>
+                            <td>{{ $event->venue->name ?? 'Unknown Venue' }}</td>
+                            <td>{{ $event->room }}</td>
                             <td>{{ $event->status }}</td>
                             <td>
                                 <a href="{{ route('events.edit', $event->id) }}" class="btn btn-sm btn-warning">✏️ Edit</a>

@@ -15,6 +15,7 @@ class Event extends Model
         'end_date',
         'is_virtual',
         'venue_id',
+        'room',
         'organizer_id',
         'status',
     ];
