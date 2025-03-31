@@ -52,6 +52,11 @@
             </div>
 
             <div class="mb-3">
+                <label for="room" class="form-label">Room (optional)</label>
+                <input type="text" name="room" class="form-control" value="{{ $event->room }}" >
+            </div>
+
+            <div class="mb-3">
                 <label for="organizer_id" class="form-label">Organizer ID</label>
                 <input type="number" name="organizer_id" class="form-control" value="{{ $event->organizer_id }}" required>
             </div>

@@ -27,6 +27,7 @@ class EventsController extends Controller
             'end_date' => 'required|date',
             'is_virtual' => 'required|boolean',
             'venue_id' => 'required|integer',
+            'room' => 'required',
             'organizer_id' => 'required|integer',
             'status' => 'required|string',
         ]);
@@ -38,6 +39,7 @@ class EventsController extends Controller
         $event->end_date = $request->end_date;
         $event->is_virtual = $request->is_virtual;
         $event->venue_id = $request->venue_id;
+        $event->room = $request->room;
         $event->organizer_id = $request->organizer_id;
         $event->status = $request->status;
         $event->save();
@@ -60,6 +62,7 @@ class EventsController extends Controller
             'end_date' => 'required|date',
             'is_virtual' => 'required|boolean',
             'venue_id' => 'required|integer',
+            'room' => 'required',
             'organizer_id' => 'required|integer',
             'status' => 'required|string',
         ]);
@@ -71,6 +74,7 @@ class EventsController extends Controller
         $event->end_date = $request->end_date;
         $event->is_virtual = $request->is_virtual;
         $event->venue_id = $request->venue_id;
+        $event->room = $request->room;
         $event->organizer_id = $request->organizer_id;
         $event->status = $request->status;
         $event->save();

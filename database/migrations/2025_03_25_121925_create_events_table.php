@@ -19,6 +19,7 @@ return new class extends Migration
             $table->dateTime('end_date');
             $table->boolean('is_virtual')->default(false);
             $table->unsignedBigInteger('venue_id');
+            $table->string('room')->nullable();
             $table->unsignedBigInteger('organizer_id');
             $table->string('status')->default('concept');
             $table->timestamps();

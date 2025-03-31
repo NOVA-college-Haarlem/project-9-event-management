@@ -20,6 +20,11 @@
                 <td><strong>📍 Location:</strong></td>
                 <td>{{ $event->venue->name ?? 'Online' }}</td>
             </tr>
+            <tr>
+                <p><strong>Room:</strong> {{ $event->room ?? 'Not specified' }}</p>
+
+            </tr>
+            
         </table>
 
         <p style="margin-top: 30px; font-size: 16px; color: #2c3e50;">We look forward to seeing you there! 🎉</p>
