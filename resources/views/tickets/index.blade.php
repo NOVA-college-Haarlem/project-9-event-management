@@ -10,7 +10,6 @@
                     <th>#</th>
                     <th>Event</th>
                     <th>User</th>
-                    <th>Ticket Type</th>
                     <th>Status</th>
                     <th>Purchase date</th>
                     <th>Actions</th>
@@ -19,15 +18,19 @@
             <tbody>
                 @foreach($tickets as $ticket)
                 <tr>
-                    <td>{{ $ticket->id }}</td>
+                    
+                    <td>{{ $ticket->ticket_id }}</td>
                     <td>{{ $ticket->event->name }}</td>
                     <td>{{ $ticket->user->name }}</td>
-                    <td>{{ $ticket->ticketType->name }}</td>
                     <td>{{ ucfirst($ticket->status) }}</td>
                     <td>{{ $ticket->purchase_date }}</td>
+
                     <td>
-                        <a href="{{ route('Tickets.edit', $ticket) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('Tickets.delete', $ticket) }}" method="POST" class="d-inline">
+                        <!-- Gebruik ticket->id in plaats van $ticket -->
+                        <a href="{{ route('tickets.edit', $ticket->ticket_id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        
+                        <!-- Gebruik ticket->id voor de delete route -->
+                        <form action="{{ route('tickets.delete', $ticket->ticket_id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>

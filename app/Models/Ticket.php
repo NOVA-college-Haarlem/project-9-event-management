@@ -9,6 +9,10 @@ class Ticket extends Model
 {
     use HasFactory;
 
+    protected $table = 'tickets';
+
+    protected $primaryKey = 'ticket_id';
+
     protected $fillable = ['status', 'purchase_date', 'reference_code'];
 
     protected $casts = [
@@ -16,14 +20,16 @@ class Ticket extends Model
     ];
     public function event()
     {
-        return $this->belongsTo(Event::class, 'event_id');
+        return $this->belongsTo(Event::class);
     }
+
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
+
     public function ticketType()
     {
-        return $this->belongsTo(TicketType::class, 'ticket_type_id');
+        return $this->hasOne(TicketType::class,'ticket_id');
     }
 }
