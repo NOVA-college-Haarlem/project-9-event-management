@@ -51,8 +51,11 @@ class EventsController extends Controller
 
     public function edit($id)
     {
-        $event = Event::find($id);
-        return view('events.edit', compact('event'));
+        $event = \App\Models\Event::findOrFail($id);
+        $organizers = \App\Models\User::all();
+        $venues = \App\Models\Venue::all();
+
+        return view('events.edit', compact('event', 'organizers', 'venues'));
     }
 
     public function update(Request $request, $id)
