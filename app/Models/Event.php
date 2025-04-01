@@ -31,12 +31,12 @@ class Event extends Model
     // Tickets
     public function tickets()
     {
-        return $this->hasMany(Ticket::class, 'id');
+        return $this->hasMany(Ticket::class);
     }
     // Ticket Types
     public function ticketTypes()
     {
-        return $this->hasMany(TicketType::class, 'id');
+    return $this->hasMany(TicketType::class);
     }
 
     // Sessions

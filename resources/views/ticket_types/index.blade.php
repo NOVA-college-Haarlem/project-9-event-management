@@ -20,16 +20,20 @@
                 @foreach($ticket_types as $ticketType)
                 <tr>
                     <td>{{ $ticketType->id }}</td>
-                    <td>{{ $ticketType->name }}</td>
+                    <td>{{ $ticketType->event->name }}</td>
+                    <td>{{ $ticketType->name }}</td>  <!-- name of the ticket type -->
                     <td>€{{ number_format($ticketType->price, 2) }}</td>
-                    <td>{{ $ticketType->quantity }}</td>
+                    <td>{{ $ticketType->quantity }}</td>  <!-- Available quantity -->
                     <td>
                         {{ $ticketType->sales_start->format('d/m/Y H:i') }} -<br>
                         {{ $ticketType->sales_end->format('d/m/Y H:i') }}
                     </td>
                     <td>
-                        <a href="{{ route('ticket_types.edit', $ticketType) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('ticket_types.delete', $ticketType) }}" method="POST" class="d-inline">
+                        <!-- Edit Button -->
+                        <a href="{{ route('ticket_types.edit', $ticketType->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        
+                        <!-- Delete Button -->
+                        <form action="{{ route('ticket_types.delete', $ticketType->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
