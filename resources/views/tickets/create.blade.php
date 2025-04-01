@@ -2,15 +2,16 @@
     <div class="container">
     <h2>Create a Ticket</h2>
     
-      @if ($errors->any())
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-sm">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+    @if ($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-sm">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('tickets.store') }}" method="POST">
         @csrf
 
@@ -34,15 +35,7 @@
             </select>
         </div>
 
-        <div class="mb-3">
-            <label for="ticket_type_id" class="form-label">Ticket Type</label>
-            <select class="form-control" id="ticket_type_id" name="ticket_type_id" required>
-                <option value="">-- Choose a Ticket Type --</option>
-                @foreach($ticketTypes as $ticketType)
-                    <option value="{{ $ticketType->id }}">{{ $ticketType->name }} (€{{ $ticketType->price }})</option>
-                @endforeach
-            </select>
-        </div>
+    
 
         <div class="mb-3">
             <label for="status" class="form-label">Status</label>
@@ -58,13 +51,13 @@
             <input type="datetime-local" class="form-control" id="purchase_date" name="purchase_date" required>
         </div>
 
-        <div class="mb-3">
+        <!-- Verwijder het reference_code veld uit het formulier, aangezien het automatisch wordt gegenereerd -->
+        <!-- <div class="mb-3">
             <label for="reference_code" class="form-label">Reference code</label>
             <input type="text" class="form-control" id="reference_code" name="reference_code" required>
-        </div>
+        </div> -->
 
         <button type="submit" class="btn btn-primary">Add Ticket</button>
     </form>
 </div>
-
 </x-app-layout>
