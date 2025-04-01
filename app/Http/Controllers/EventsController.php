@@ -15,7 +15,9 @@ class EventsController extends Controller
 
     public function create()
     {
-        return view('events.create');
+        $organizers = \App\Models\User::all();
+        $venues = \App\Models\Venue::all();
+        return view('events.create', compact('venues', 'organizers'));
     }
 
     public function store(Request $request)
