@@ -72,6 +72,8 @@ Route::prefix('registrations')->name('registrations.')->middleware('auth')->grou
     Route::get('/edit/{registration}', [RegistrationController::class, 'edit'])->name('edit');
     Route::put('/update/{registration}', [RegistrationController::class, 'update'])->name('update');
     Route::delete('/delete/{registration}', [RegistrationController::class, 'delete'])->name('destroy');
+    Route::get('/thankyou', function () {return view('registrations.thankyou');})->name('registrations.thankyou');
+    
 
 });
 

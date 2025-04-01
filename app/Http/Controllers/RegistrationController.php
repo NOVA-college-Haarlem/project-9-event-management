@@ -61,7 +61,8 @@ class RegistrationController extends Controller
 
         Mail::to('test@example.com')->send(new RegistrationConfirmationMail($event, $request->name));
 
-        return redirect()->route('events.index')->with('success', 'Registration submitted!');
+        return view('registrations.thankyou');
+
     }
 
     public function edit($id)
