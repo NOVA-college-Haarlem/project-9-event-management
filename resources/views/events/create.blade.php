@@ -45,9 +45,16 @@
             </div>
 
             <div class="mb-3">
-                <label for="venue_id" class="form-label">Venue ID</label>
-                <input type="number" name="venue_id" class="form-control" required>
+                <label for="venue_id" class="form-label">Venue</label>
+                <select name="venue_id" class="form-control" required>
+                    <option value="">-- Select Venue --</option>
+                    @foreach ($venues as $venue)
+                        <option value="{{ $venue->id }}">{{ $venue->name }} ({{ $venue->city ?? '' }})</option>
+                    @endforeach
+                </select>
             </div>
+            
+            
 
             <div class="mb-3">
                 <label for="room" class="form-label">Room (optional)</label>
@@ -55,14 +62,26 @@
             </div>
 
             <div class="mb-3">
-                <label for="organizer_id" class="form-label">Organizer ID</label>
-                <input type="number" name="organizer_id" class="form-control" required>
+                <label for="organizer_id" class="form-label">Organizer</label>
+                <select name="organizer_id" class="form-control" required>
+                    <option value="">-- Select Organizer --</option>
+                    @foreach ($organizers as $organizer)
+                        <option value="{{ $organizer->id }}">{{ $organizer->name }} ({{ $organizer->email }})</option>
+                    @endforeach
+                </select>
             </div>
+            
 
             <div class="mb-3">
                 <label for="status" class="form-label">Status</label>
-                <input type="text" name="status" class="form-control" required placeholder="e.g. Draft, Active, Cancelled">
+                <select name="status" class="form-control" required>
+                    <option value="">-- Select Status --</option>
+                    <option value="Draft">Draft</option>
+                    <option value="Active">Active</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
             </div>
+            
 
             <button type="submit" class="btn btn-primary">Create Event</button>
         </form>

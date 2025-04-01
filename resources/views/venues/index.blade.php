@@ -23,6 +23,7 @@
                         <th>Country</th>
                         <th>Capacity</th>
                         <th>Created At</th>
+                        <th>Actions</th> {{-- Toegevoegde kolom --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -34,6 +35,11 @@
                             <td>{{ $venue->country ?? '-' }}</td>
                             <td>{{ $venue->capacity ?? '-' }}</td>
                             <td>{{ $venue->created_at->format('Y-m-d') }}</td>
+                            <td>
+                                <a href="{{ route('venues.events', $venue->id) }}" class="btn btn-sm btn-primary">
+                                    📅 View Events
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
