@@ -5,7 +5,7 @@
             <a href="{{ route('home') }}" class="btn btn-outline-secondary">🏠 Home</a>
             <a href="{{ route('venues.index') }}" class="btn btn-outline-primary">📍 Venues</a>
             <a href="{{ route('events.index') }}" class="btn btn-success">🎈 All Events</a>
-        </div>
+        </div><br>
 
         @if(session('success'))
             <div class="mb-4 p-4 bg-green-100 text-green-700 rounded">
@@ -13,6 +13,17 @@
             </div>
         @endif
 
+        <form method="GET" action="{{ route('registrations.index') }}" class="mb-6 flex flex-wrap gap-4">
+            <input type="text" name="event" placeholder="Search by Event" value="{{ request('event') }}"
+                   class="form-input border border-gray-300 rounded px-4 py-2 w-60" />
+        
+            <input type="text" name="name" placeholder="Search by Name" value="{{ request('name') }}"
+                   class="form-input border border-gray-300 rounded px-4 py-2 w-60" />
+        
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="{{ route('registrations.index') }}" class="btn btn-outline-secondary">Reset</a>
+        </form>
+        
         <div class="bg-white shadow rounded-lg overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">

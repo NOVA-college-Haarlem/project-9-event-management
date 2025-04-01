@@ -5,6 +5,7 @@
             <a href="{{ route('home') }}" class="btn btn-outline-secondary">🏠 Home</a>
             <a href="{{ route('venues.index') }}" class="btn btn-outline-primary">📍 Venues</a>
             <a href="{{ route('events.create') }}" class="btn btn-success">➕ Create Event</a>
+            <a href="{{ route('registrations.index') }}" class="btn btn-success">📝 Registrations</a>
         </div>
         @if ($events->isEmpty())
             <p>No events found.</p>

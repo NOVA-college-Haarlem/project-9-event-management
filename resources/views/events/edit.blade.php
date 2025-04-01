@@ -46,25 +46,38 @@
                 </select>
             </div>
 
-            <div class="mb-3">
-                <label for="venue_id" class="form-label">Venue ID</label>
-                <input type="number" name="venue_id" class="form-control" value="{{ $event->venue_id }}" required>
-            </div>
+            <select name="venue_id" class="form-control" required>
+                <option value="">-- Select Venue --</option>
+                @foreach ($venues as $venue)
+                    <option value="{{ $venue->id }}" {{ $event->venue_id == $venue->id ? 'selected' : '' }}>
+                        {{ $venue->name }} ({{ $venue->city ?? '' }})
+                    </option>
+                @endforeach
+            </select>
+            
 
             <div class="mb-3">
                 <label for="room" class="form-label">Room (optional)</label>
                 <input type="text" name="room" class="form-control" value="{{ $event->room }}" >
             </div>
 
-            <div class="mb-3">
-                <label for="organizer_id" class="form-label">Organizer ID</label>
-                <input type="number" name="organizer_id" class="form-control" value="{{ $event->organizer_id }}" required>
-            </div>
+            <select name="organizer_id" class="form-control" required>
+                <option value="">-- Select Organizer --</option>
+                @foreach ($organizers as $organizer)
+                    <option value="{{ $organizer->id }}" {{ $event->organizer_id == $organizer->id ? 'selected' : '' }}>
+                        {{ $organizer->name }} ({{ $organizer->email }})
+                    </option>
+                @endforeach
+            </select><br>
+            
 
-            <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <input type="text" name="status" class="form-control" value="{{ $event->status }}" required>
-            </div>
+            <select name="status" class="form-control" required>
+                <option value="">-- Select Status --</option>
+                <option value="Draft" {{ $event->status == 'Draft' ? 'selected' : '' }}>Draft</option>
+                <option value="Active" {{ $event->status == 'Active' ? 'selected' : '' }}>Active</option>
+                <option value="Cancelled" {{ $event->status == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
+            </select>
+            
 
             <button type="submit" class="btn btn-primary">Update Event</button>
         </form>

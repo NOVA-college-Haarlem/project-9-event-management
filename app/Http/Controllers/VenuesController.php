@@ -32,4 +32,10 @@ class VenuesController extends Controller
 
         return redirect()->route('venues.index')->with('success', 'Venue created successfully!');
     }
+
+    public function events($venueId)
+    {
+        $venue = Venue::with('events')->findOrFail($venueId);
+        return view('venues.events', compact('venue'));
+    }
 }
