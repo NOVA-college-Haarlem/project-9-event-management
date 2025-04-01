@@ -7,6 +7,7 @@
                 <div class="d-grid gap-3">
                     <a href="{{ route('events.index') }}" class="btn btn-primary btn-lg">📋 View All Events</a>
                     <a href="{{ route('events.create') }}" class="btn btn-success btn-lg">➕ Create New Event</a>
+                    <a href="{{ route('registrations.index') }}" class="btn btn-success">📝 Registrations</a>
                     {{-- Add more buttons for other sections --}}
                 </div>
             </div>

@@ -15,10 +15,27 @@ use Illuminate\Support\Facades\Mail;
 class RegistrationController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $registrations = \App\Models\Registration::with(['user', 'event.venue'])->latest()->get();
-        return view('registrations.index', compact('registrations'));
+        $query = Registration::with(['user', 'event.venue']);
+
+    // Zoek op event naam
+    if ($request->filled('event')) {
+        $query->whereHas('event', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->event . '%');
+        });
+    }
+
+    // Zoek op naam van geregistreerde
+    if ($request->filled('name')) {
+        $query->whereHas('user', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->name . '%');
+        });
+    }
+
+    $registrations = $query->latest()->get();
+
+    return view('registrations.index', compact('registrations'));
     }
 
     public function create($eventId)
