@@ -21,13 +21,20 @@
                 <td>{{ $event->venue->name ?? 'Online' }}</td>
             </tr>
             <tr>
-                <p><strong>Room:</strong> {{ $event->room ?? 'Not specified' }}</p>
-
+                <td><strong>🏛 Room:</strong></td>
+                <td>{{ $event->room ?? 'Not specified' }}</td>
             </tr>
-            
         </table>
 
         <p style="margin-top: 30px; font-size: 16px; color: #2c3e50;">We look forward to seeing you there! 🎉</p>
+
+        <!-- QR Code -->
+
+       
+        <div style="margin-top: 30px; text-align: center;">
+            <p style="font-size: 15px;">📲 Scan this QR code to check in at the event:</p>
+            <img src="{{ $message->embed(public_path('images/QR_Code.png')) ?? ''}}" alt="QR Code" style="width: 150px; height: 150px;">
+        </div>
 
         <hr style="margin-top: 40px;">
         <p style="font-size: 13px; color: #999;">If you have any questions, feel free to reply to this email.</p>
