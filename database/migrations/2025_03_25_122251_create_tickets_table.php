@@ -12,10 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tickets', function (Blueprint $table) {
-            $table->id('tickets_id');
+            $table->id('ticket_id');
             $table->unsignedBigInteger('event_id');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('ticket_types_id');
             $table->string('status');
             $table->timestamp('purchase_date')->nullable();
             $table->string('reference_code')->unique();
@@ -24,7 +23,6 @@ return new class extends Migration
             // Handmatige foreign keys
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('ticket_types_id')->references('id')->on('ticket_types')->onDelete('cascade');
         });
     }
 

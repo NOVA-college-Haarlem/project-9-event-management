@@ -25,8 +25,8 @@ class TicketRequest extends FormRequest
         return [
             'event_id' => 'required|exists:events,id',
             'user_id' => 'required|exists:users,id',
-            'ticket_type_id' => 'required|exists:ticket_types,id',
             'status' => 'required|string',
+            'purchase_date' => 'required|date',
         ];
     }
 }
