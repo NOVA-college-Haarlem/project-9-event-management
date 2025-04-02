@@ -61,4 +61,11 @@ class EventsController extends Controller
 
         return redirect()->route('events.index')->with('success', 'Event deleted successfully.');
     }
+
+    public function calendar()
+    {
+        $events = \App\Models\Event::select('id', 'name as title', 'start_date as start', 'end_date as end')->get();
+        return view('events.calendar', compact('events'));
+    }
+
 }
