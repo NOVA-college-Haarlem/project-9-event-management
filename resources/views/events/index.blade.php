@@ -1,53 +1,40 @@
+index.blade.events
 <x-app-layout>
-    <div class="container">
-        <h2>All Events</h2>
-        <div class="d-flex gap-2">
-            <a href="{{ route('home') }}" class="btn btn-outline-secondary">🏠 Home</a>
-            <a href="{{ route('venues.index') }}" class="btn btn-outline-primary">📍 Venues</a>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="fw-bold text-primary">All Events</h2>
             <a href="{{ route('events.create') }}" class="btn btn-success">➕ Create Event</a>
-            <a href="{{ route('registrations.index') }}" class="btn btn-success">📝 Registrations</a>
         </div>
+        
         @if ($events->isEmpty())
-            <p>No events found.</p>
+            <div class="alert alert-info">No events available yet.</div>
         @else
-            <table class="table table-bordered table-striped mt-4">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Virtual</th>
-                        <th>Venue</th>
-                        <th>Room</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($events as $event)
-                        <tr>
-                            <td>{{ $event->name }}</td>
-                            <td>{{ $event->description }}</td>
-                            <td>{{ \Carbon\Carbon::parse($event->start_date)->format('Y-m-d H:i') }}</td>
-                            <td>{{ \Carbon\Carbon::parse($event->end_date)->format('Y-m-d H:i') }}</td>
-                            <td>{{ $event->is_virtual ? 'Yes' : 'No' }}</td>
-                            <td>{{ $event->venue->name ?? 'Unknown Venue' }}</td>
-                            <td>{{ $event->room }}</td>
-                            <td>{{ $event->status }}</td>
-                            <td>
-                                <a href="{{ route('events.edit', $event->id) }}" class="btn btn-sm btn-warning">✏️ Edit</a>
-                                <form action="{{ route('events.delete', $event->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">🗑️ Delete</button>
-                                </form>
-                                <a href="{{ route('registrations.create', ['event' => $event->id]) }}" class="btn btn-sm btn-primary">📝 Register</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="row g-4">
+                @foreach ($events as $event)
+                    <div class="col-md-6">
+                        <div class="card shadow-sm border-0 rounded">
+                            <div class="card-body">
+                                <h4 class="card-title fw-bold text-primary">{{ $event->name }}</h4>
+                                <p class="text-muted">{{ $event->description }}</p>
+                                <div class="d-flex justify-content-between">
+                                    <span class="badge bg-secondary">{{ $event->start_date }} - {{ $event->end_date }}</span>
+                                    <span class="badge bg-{{ $event->status == 'published' ? 'success' : 'warning' }}">
+                                        {{ ucfirst($event->status) }}
+                                    </span>
+                                </div>
+                                <div class="mt-3 d-flex gap-2">
+                                    <a href="{{ route('events.edit', $event->id) }}" class="btn btn-warning btn-sm">✏️ Edit</a>
+                                    <form action="{{ route('events.delete', $event->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">🗑 Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         @endif
     </div>
 </x-app-layout>
