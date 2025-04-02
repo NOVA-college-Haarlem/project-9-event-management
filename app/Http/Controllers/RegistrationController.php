@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Requests\RegistrationRequest;
 use App\Models\Event;
 use App\Models\Registration;
 use Illuminate\Http\Request;
@@ -44,24 +46,15 @@ class RegistrationController extends Controller
         return view('registrations.create', compact('event'));
     }
 
-    public function store(Request $request)
+    public function store(RegistrationRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'address' => 'nullable',
-            
-            'event_id' => 'required|exists:events,id',
-        ]);
-
         $event = Event::findOrFail($request->event_id);
 
-        // Check of user bestaat of maak aan
         $user = User::firstOrCreate(
             ['email' => $request->email],
             [
                 'name' => $request->name,
-                'password' => bcrypt(Str::random(12)), // of iets anders
+                'password' => bcrypt(Str::random(12)),
                 'role' => 'attendee',
             ]
         );
@@ -79,8 +72,8 @@ class RegistrationController extends Controller
         Mail::to('test@example.com')->send(new RegistrationConfirmationMail($event, $request->name));
 
         return view('registrations.thankyou');
-
     }
+
 
     public function edit($id)
     {
@@ -88,18 +81,15 @@ class RegistrationController extends Controller
         return view('registrations.edit', compact('registration'));
     }
 
-    public function update(Request $request, $id)
+    public function update(RegistrationRequest $request, $id)
     {
         $registration = Registration::findOrFail($id);
-        $request->validate([
-            'status' => 'required|in:pending,approved,rejected',
-        ]);
-
         $registration->status = $request->status;
         $registration->save();
 
         return redirect()->route('registrations.index')->with('success', 'Registration updated.');
     }
+
 
     public function destroy($id)
     {
