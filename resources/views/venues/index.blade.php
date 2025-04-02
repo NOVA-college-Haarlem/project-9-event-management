@@ -1,3 +1,4 @@
+index.blade.venues
 <x-app-layout>
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -47,3 +48,4 @@
         @endif
     </div>
 </x-app-layout>
+
