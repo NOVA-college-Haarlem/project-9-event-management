@@ -7,6 +7,7 @@ use App\Http\Controllers\Ticket_TypeController;
 use App\Http\Controllers\TicketsController;
 use App\Http\Controllers\VenuesController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\FeedbackController;
 
 
 Route::get('/', function () {
