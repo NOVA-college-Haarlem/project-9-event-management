@@ -1,4 +1,3 @@
-index.blade.ticketT
 <x-app-layout>
     <div class="container py-8">
         <!-- Page Header -->
@@ -6,10 +5,13 @@ index.blade.ticketT
             <h1 class="text-4xl font-bold text-gradient">
                 <i class="fas fa-ticket-alt mr-3"></i>Ticket Types
             </h1>
-            <br>
-            <a href="{{ route('ticket_types.create') }}" class="btn-action btn-primary">
-                <i class="fas fa-plus-circle mr-2"></i>Create Ticket Type
-            </a>
+            @auth
+                @if(auth()->user()->is_admin)
+                    <a href="{{ route('ticket_types.create') }}" class="btn-action btn-primary">
+                        <i class="fas fa-plus-circle mr-2"></i>Create Ticket Type
+                    </a>
+                @endif
+            @endauth
         </div>
         <br>
         @if ($ticket_types->isEmpty())
@@ -20,6 +22,7 @@ index.blade.ticketT
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($ticket_types as $ticketType)
                 <div class="ticket-type-card">
+                    <!-- Card content remains the same -->
                     <div class="card-header">
                         <h3 class="ticket-name">{{ $ticketType->name }}</h3>
                         <div class="ticket-price">€{{ number_format($ticketType->price, 2) }}</div>
@@ -53,18 +56,47 @@ index.blade.ticketT
                     </div>
                     
                     <div class="card-actions">
-                        <a href="{{ route('ticket_types.edit', $ticketType->id) }}" 
-                           class="action-btn btn-edit">
-                            <i class="fas fa-edit mr-2"></i>Edit
-                        </a>
-                        <form action="{{ route('ticket_types.delete', $ticketType->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="action-btn btn-delete" 
-                                    onclick="return confirm('Are you sure you want to delete this ticket type?')">
-                                <i class="fas fa-trash-alt mr-2"></i>Delete
-                            </button>
-                        </form>
+                        <div class="flex gap-2 w-full">
+                            @auth
+                                <!-- Add to Cart -->
+                                <form action="{{ route('cart.add') }}" method="POST" class="flex-1">
+                                    @csrf
+                                    <input type="hidden" name="ticket_type_id" value="{{ $ticketType->id }}">
+                                    <div class="flex items-center gap-2">
+                                        <input type="number" name="quantity" value="1" min="1" max="{{ $ticketType->quantity }}" 
+                                               class="w-16 px-2 py-1 border rounded">
+                                        <button type="submit" class="action-btn btn-add-to-cart w-full">
+                                            <i class="fas fa-cart-plus mr-2"></i>Add to Cart
+                                        </button>
+                                    </div>
+                                </form>
+                    
+                                <!-- Alleen voor admins -->
+                                @if(auth()->user()->is_admin)
+                                    <!-- Edit Button -->
+                                    <a href="{{ route('ticket_types.edit', $ticketType->id) }}" 
+                                       class="action-btn btn-edit flex-1">
+                                        <i class="fas fa-edit mr-2"></i>Edit
+                                    </a>
+                                    
+                    
+                                    <!-- Delete Button -->
+                                    <form action="{{ route('ticket_types.delete', $ticketType->id) }}" method="POST" class="flex-1">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="action-btn btn-delete w-full" 
+                                                onclick="return confirm('Are you sure you want to delete this ticket type?')">
+                                            <i class="fas fa-trash-alt mr-2"></i>Delete
+                                        </button>
+                                    </form>
+                                @endif
+                            @else
+                                <!-- Login Button voor niet-ingelogde gebruikers -->
+                                <a href="{{ route('login') }}" class="action-btn btn-add-to-cart flex-1">
+                                    <i class="fas fa-sign-in-alt mr-2"></i>Login to Purchase
+                                </a>
+                            @endauth
+                        </div>
                     </div>
                 </div>
                 @endforeach
@@ -73,6 +105,12 @@ index.blade.ticketT
     </div>
 
     <style>
+        .text-gradient {
+            background: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
         /* Main Styles */
         .text-gradient {
             background: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
@@ -177,27 +215,49 @@ index.blade.ticketT
             display: flex;
             padding: 0 1.5rem 1.5rem;
             gap: 0.75rem;
+            flex-wrap: wrap;
         }
         
         .action-btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             padding: 0.5rem 1rem;
             border-radius: 6px;
             font-weight: 500;
             font-size: 0.9rem;
             transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
         }
         
         .btn-primary {
             background: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
             color: white;
-            border: none;
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn-add-to-cart {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .btn-add-to-cart:hover {
+            background-color: #bbf7d0;
+        }
+        
+        .btn-cart {
+            background-color: #fce7f3;
+            color: #831843;
+        }
+        
+        .btn-cart:hover {
+            background-color: #fbcfe8;
         }
         
         .btn-edit {

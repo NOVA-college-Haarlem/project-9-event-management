@@ -6,7 +6,9 @@ index.blade.venues
             <div class="d-flex gap-2">
                 <a href="{{ route('home') }}" class="btn btn-outline-secondary">🏠 Home</a>
                 <a href="{{ route('events.index') }}" class="btn btn-outline-primary">📋 Events</a>
-                <a href="{{ route('venues.create') }}" class="btn btn-success">➕ Create Venue</a>
+                @if(auth()->user()->is_admin)
+                    <a href="{{ route('venues.create') }}" class="btn btn-outline-success">➕ Create Venue</a>
+                @endif
             </div>
         </div>
 
