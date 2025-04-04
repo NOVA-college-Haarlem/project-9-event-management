@@ -4,5 +4,6 @@
         <p>Je ontvangt binnenkort een bevestiging per e-mail.</p>
 
         <a href="{{ route('events.index') }}" class="btn btn-primary mt-3">Bekijk alle evenementen</a>
+        <a href="{{ route('feedback.create') }}" class="btn btn-primary mt-3">Geef ons feedback!</a>
     </div>
 </x-app-layout>

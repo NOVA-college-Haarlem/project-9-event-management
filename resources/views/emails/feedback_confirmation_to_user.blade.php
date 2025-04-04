@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Registration Confirmation</title>
+    <title>Feedback Confirmation</title>
 </head>
 <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 40px;">
     <div style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 30px;">
-        <h2 style="color: #2c3e50;">Hello {{ $name }},</h2>
-        <p style="font-size: 16px; color: #34495e;">You're successfully registered for the event:</p>
+        <h2 style="color: #2c3e50;">Thank you for your feedback!</h2>
+        <p style="font-size: 16px; color: #34495e;">We've received your feedback for:</p>
 
         <h3 style="color: #2980b9; margin-top: 10px;">{{ $event->name }}</h3>
 
@@ -20,21 +20,14 @@
                 <td><strong>📍 Location:</strong></td>
                 <td>{{ $event->venue->name ?? 'Online' }}</td>
             </tr>
-            <tr>
-                <td><strong>🏛 Room:</strong></td>
-                <td>{{ $event->room ?? 'Not specified' }}</td>
-            </tr>
         </table>
 
-        <p style="margin-top: 30px; font-size: 16px; color: #2c3e50;">We look forward to seeing you there! 🎉</p>
+        <hr style="margin: 30px 0;">
 
-        <!-- QR Code -->
+        <h4 style="color: #2c3e50;">Your message:</h4>
+        <p style="font-size: 15px; color: #2c3e50;">{{ $feedback }}</p>
 
-       
-        <div style="margin-top: 30px; text-align: center;">
-            <p style="font-size: 15px;">📲 Scan this QR code to check in at the event:</p>
-            <img src="{{ $message->embed(public_path('images/QR_Code.png')) ?? ''}}" alt="QR Code" style="width: 150px; height: 150px;">
-        </div>
+        <p style="margin-top: 30px; font-size: 16px; color: #2c3e50;">We appreciate your input and will review it carefully. 🙏</p>
 
         <hr style="margin-top: 40px;">
         <p style="font-size: 13px; color: #999;">If you have any questions, feel free to reply to this email.</p>

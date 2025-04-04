@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEventRequest;
+use App\Http\Requests\UpdateEventRequest;
 use Illuminate\Http\Request;
 use App\Models\Event;
 
@@ -20,33 +22,13 @@ class EventsController extends Controller
         return view('events.create', compact('venues', 'organizers'));
     }
 
-    public function store(Request $request)
+    public function store(StoreEventRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'is_virtual' => 'required|boolean',
-            'venue_id' => 'required|integer',
-            'room' => 'required',
-            'organizer_id' => 'required|integer',
-            'status' => 'required|string',
-        ]);
-
-        $event = new Event();
-        $event->name = $request->name;
-        $event->description = $request->description;
-        $event->start_date = $request->start_date;
-        $event->end_date = $request->end_date;
-        $event->is_virtual = $request->is_virtual;
-        $event->venue_id = $request->venue_id;
-        $event->room = $request->room;
-        $event->organizer_id = $request->organizer_id;
-        $event->status = $request->status;
-        $event->save();
+        
+        Event::create($request->validated());
 
         return redirect()->route('events.index')->with('success', 'Event created successfully.');
+
     }
 
     public function edit($id)
@@ -58,31 +40,10 @@ class EventsController extends Controller
         return view('events.edit', compact('event', 'organizers', 'venues'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateEventRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'is_virtual' => 'required|boolean',
-            'venue_id' => 'required|integer',
-            'room' => 'required',
-            'organizer_id' => 'required|integer',
-            'status' => 'required|string',
-        ]);
-
-        $event = Event::find($id);
-        $event->name = $request->name;
-        $event->description = $request->description;
-        $event->start_date = $request->start_date;
-        $event->end_date = $request->end_date;
-        $event->is_virtual = $request->is_virtual;
-        $event->venue_id = $request->venue_id;
-        $event->room = $request->room;
-        $event->organizer_id = $request->organizer_id;
-        $event->status = $request->status;
-        $event->save();
+        $event = Event::findOrFail($id);
+        $event->update($request->validated());
 
         return redirect()->route('events.index')->with('success', 'Event updated successfully.');
     }
@@ -100,4 +61,11 @@ class EventsController extends Controller
 
         return redirect()->route('events.index')->with('success', 'Event deleted successfully.');
     }
+
+    public function calendar()
+    {
+        $events = \App\Models\Event::select('id', 'name as title', 'start_date as start', 'end_date as end')->get();
+        return view('events.calendar', compact('events'));
+    }
+
 }
