@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <link rel="icon" type="image/png" href="{{ asset('images/EventLogo.png') }}">
     <title>EventMaster Pro | {{ $title ?? 'Premium Event Management' }}</title>
 
     <!-- Fonts & Icons -->
@@ -247,11 +248,11 @@
                 <a href="{{ route('register') }}" class="btn btn-primary btn-lg">
                     <i class="fas fa-rocket me-2"></i>Register Now!
                 </a>
-                <a href="{{route('events.calendar')}}" class="btn btn-outline-light btn-lg">
+                <a href="{{route('events.calendar')}}" class="btn btn-outline-light btn-lg" >
                     <i class="fas fa-calendar-alt me-2"></i>Explore Events
                 </a>
-            </div>
-            <a href="#events" class="scroll-down">
+            </div><br><br><br>
+            <br><a href="#events" class="scroll-down">
                 <i class="fas fa-chevron-down"></i>
             </a>
         </div>
