@@ -220,6 +220,19 @@
                         <a class="nav-link" href="/registrations">Registrations</a>
                     </li>
                 </li>
+                <ul class="navbar-nav ms-auto">
+                    <!-- ... bestaande nav items ... -->
+                    @auth
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="{{ route('orders.form') }}">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ array_sum(array_column(session('cart', []), 'quantity')) }}
+                            </span>
+                        </a>
+                    </li>
+                    @endauth
+                </ul>
                 <li class="nav-item ms-lg-3">
                     @auth
                         <form method="POST" action="{{ route('logout') }}" id="logout-form">

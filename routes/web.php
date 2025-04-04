@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Ticket_TypeController;
 use App\Http\Controllers\TicketsController;
 use App\Http\Controllers\VenuesController;
@@ -32,20 +33,24 @@ Route::name("events.")->prefix("events")->group(function () {
 });
 
 Route::name("tickets.")->prefix("tickets")->group(function () {
+
     Route::get('/', [TicketsController::class, 'index'])->name('index');
     Route::get('/create', [TicketsController::class, 'create'])->name('create');
     Route::post('/', [TicketsController::class, 'store'])->name('store');
-Route::get('/edit/{ticket}', [TicketsController::class, 'edit'])->name('edit');
+    Route::get('/edit/{ticket}', [TicketsController::class, 'edit'])->name('edit');
     Route::post('/update/{ticket}', [TicketsController::class, 'update'])->name('update');
     Route::delete('/delete/{ticket}', [TicketsController::class, 'delete'])->name('delete');
 });
-Route::name("ticket_types.")->prefix("ticket_types")->group(function () {
+Route::name('ticket_types.')->prefix('ticket_types')->group(function () {
     Route::get('/', [Ticket_TypeController::class, 'index'])->name('index');
-    Route::get('/create', [Ticket_TypeController::class, 'create'])->name('create');
-    Route::post('/', [Ticket_TypeController::class, 'store'])->name('store');
-    Route::get('/edit/{ticket_type}', [Ticket_TypeController::class, 'edit'])->name('edit');
-    Route::post('/update/{ticket_type}', [Ticket_TypeController::class, 'update'])->name('update');
-    Route::delete('/delete/{ticket_type}', [Ticket_TypeController::class, 'delete'])->name('delete');
+    
+    Route::middleware(['auth', 'is_admin'])->group(function () {
+        Route::get('/create', [Ticket_TypeController::class, 'create'])->name('create');
+        Route::post('/', [Ticket_TypeController::class, 'store'])->name('store');
+        Route::get('/edit/{ticket_type}', [Ticket_TypeController::class, 'edit'])->name('edit');
+        Route::post('/update/{ticket_type}', [Ticket_TypeController::class, 'update'])->name('update');
+        Route::delete('/delete/{ticket_type}', [Ticket_TypeController::class, 'delete'])->name('delete');
+    });
 });
 
 
@@ -64,7 +69,6 @@ Route::prefix('venues')->name('venues.')->group(function () {
     Route::get('/create', [VenuesController::class, 'create'])->name('create');
     Route::post('/', [VenuesController::class, 'store'])->name('store');
     Route::get('/{venue}/events', [VenuesController::class, 'events'])->name('events');
-
 });
 
 Route::prefix('registrations')->name('registrations.')->middleware('auth')->group(function () {
@@ -75,10 +79,19 @@ Route::prefix('registrations')->name('registrations.')->middleware('auth')->grou
     Route::get('/edit/{registration}', [RegistrationController::class, 'edit'])->name('edit');
     Route::put('/update/{registration}', [RegistrationController::class, 'update'])->name('update');
     Route::delete('/delete/{registration}', [RegistrationController::class, 'delete'])->name('destroy');
-    Route::get('/thankyou', function () {return view('registrations.thankyou');})->name('registrations.thankyou');
-    
-
+    Route::get('/thankyou', function () {
+        return view('registrations.thankyou');
+    })->name('registrations.thankyou');
 });
+Route::prefix('orders')->name('orders.')->group(function () {
+    Route::get('/', [OrderController::class, 'showOrderForm'])->name('form');
+    Route::post('/', [OrderController::class, 'processOrder'])->name('process');
+    Route::get('/{order}/success', [OrderController::class, 'showSuccess'])->name('success'); // Correcte route
+    Route::get('/{order}/failed', [OrderController::class, 'failed'])->name('failed');
+});
+// Cart routes
+Route::post('/cart/add', [OrderController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/remove/{id}', [OrderController::class, 'removeFromCart'])->name('cart.remove');
 
 Route::prefix('feedback')->name('feedback.')->middleware('auth')->group(function () {
     Route::get('/', [FeedbackController::class, 'create'])->name('create');

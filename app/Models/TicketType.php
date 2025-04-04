@@ -22,4 +22,9 @@ class TicketType extends Model
     {
         return $this->belongsTo(Ticket::class);
     }
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_ticketType')  // Gebruik hier de juiste naam van de pivot-tabel
+                    ->withPivot('quantity');
+    }
 }

@@ -11,6 +11,10 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean'
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -57,5 +61,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(TicketType::class, 'id');
     }
-    
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
 }

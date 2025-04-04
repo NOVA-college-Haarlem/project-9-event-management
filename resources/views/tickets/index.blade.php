@@ -6,8 +6,15 @@
             <h1 class="text-4xl font-bold text-gradient">
                 <i class="fas fa-ticket-alt mr-3"></i>All Tickets
             </h1>
-            <a href="{{ route('tickets.create') }}" class="btn-action btn-primary">
-                <i class="fas fa-plus-circle mr-2"></i>Create a Ticket
+            @auth
+            @if(auth()->user()->is_admin)
+                <a href="{{ route('tickets.create') }}" class="btn-action btn-primary">
+                    <i class="fas fa-plus-circle mr-2"></i>Create a Ticket
+                </a>
+            @endif
+        @endauth
+            <a href="{{ route('ticket_types.index') }}" class="btn-action btn-primary">
+                <i class="fas fa-plus-circle mr-2"></i>Ticket Types bekijken
             </a>
         </div>
         <br>
@@ -23,6 +30,7 @@
                             <th>User</th>
                             <th>Status</th>
                             <th>Purchase Date</th>
+                            
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -45,21 +53,24 @@
                                 </span>
                             </td>
                             <td>{{ \Carbon\Carbon::parse($ticket->purchase_date)->format('d M Y H:i') }}</td>
+                            @if (auth()->user()->is_admin)
+                                
+                            <div class="flex space-x-3">
+                                <a href="{{ route('tickets.edit', $ticket->ticket_id) }}"
+                                   class="action-btn btn-edit" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('tickets.delete', $ticket->ticket_id) }}" method="POST"
+                                      onsubmit="return confirm('Are you sure you want to delete this ticket?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="action-btn btn-delete" title="Delete">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            @endif
                             <td>
-                                <div class="flex space-x-3">
-                                    <a href="{{ route('tickets.edit', $ticket->ticket_id) }}"
-                                       class="action-btn btn-edit" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form action="{{ route('tickets.delete', $ticket->ticket_id) }}" method="POST"
-                                          onsubmit="return confirm('Are you sure you want to delete this ticket?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="action-btn btn-delete" title="Delete">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                </div>
                             </td>
                         </tr>
                         @endforeach

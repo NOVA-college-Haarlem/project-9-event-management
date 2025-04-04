@@ -15,12 +15,42 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         DB::table('users')->insert([
-            ['name' => 'John Doe', 'email' => 'john@example.com', 'password' => Hash::make('password') ],
-            ['name' => 'Jane Doe', 'email' => 'jane@example.com', 'password' => Hash::make('password')],
-            ['name' => 'Manos Baumer', 'email' => 'manossos06@gmail.com', 'password' => Hash::make('m13579090')],
-            ['name' => 'Abdul', 'email' => 'abdul@gmail.com', 'password' => Hash::make('12345678')],
-            ['name' => 'Julian Derksen', 'email' => 'juultjederksen@gmail.com', 'password' => Hash::make('12345678')],
-            ['name' => 'Tobias Donders', 'email' => 'tjdonders@outlook.com', 'password' => Hash::make('12345678') ],
+            [
+                'name' => 'John Doe', 
+                'email' => 'john@example.com', 
+                'password' => Hash::make('password'),
+                'is_admin' => false
+            ],
+            [
+                'name' => 'Jane Doe', 
+                'email' => 'jane@example.com', 
+                'password' => Hash::make('password'),
+                'is_admin' => false
+            ],
+            [
+                'name' => 'Manos Baumer', 
+                'email' => 'manossos06@gmail.com', 
+                'password' => Hash::make('m13579090'),
+                'is_admin' => false
+            ],
+            [
+                'name' => 'Abdul', 
+                'email' => 'abdul@gmail.com', 
+                'password' => Hash::make('12345678'),
+                'is_admin' => true  // Abdul is admin
+            ],
+            [
+                'name' => 'Julian Derksen', 
+                'email' => 'juultjederksen@gmail.com', 
+                'password' => Hash::make('12345678'),
+                'is_admin' => true  // Julian is admin
+            ],
+            [
+                'name' => 'Tobias Donders', 
+                'email' => 'tjdonders@outlook.com', 
+                'password' => Hash::make('12345678'),
+                'is_admin' => false
+            ],
         ]);
     }
 }
