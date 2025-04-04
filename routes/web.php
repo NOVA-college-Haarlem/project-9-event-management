@@ -9,7 +9,7 @@ use App\Http\Controllers\TicketsController;
 use App\Http\Controllers\VenuesController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\FeedbackController;
-
+use App\Http\Middleware\IsAdmin;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,19 +32,19 @@ Route::name("events.")->prefix("events")->group(function () {
 
 });
 
-Route::name("tickets.")->prefix("tickets")->group(function () {
+// Route::name("tickets.")->prefix("tickets")->group(function () {
 
-    Route::get('/', [TicketsController::class, 'index'])->name('index');
-    Route::get('/create', [TicketsController::class, 'create'])->name('create');
-    Route::post('/', [TicketsController::class, 'store'])->name('store');
-    Route::get('/edit/{ticket}', [TicketsController::class, 'edit'])->name('edit');
-    Route::post('/update/{ticket}', [TicketsController::class, 'update'])->name('update');
-    Route::delete('/delete/{ticket}', [TicketsController::class, 'delete'])->name('delete');
-});
+//     Route::get('/', [TicketsController::class, 'index'])->name('index');
+//     Route::get('/create', [TicketsController::class, 'create'])->name('create');
+//     Route::post('/', [TicketsController::class, 'store'])->name('store');
+//     Route::get('/edit/{ticket}', [TicketsController::class, 'edit'])->name('edit');
+//     Route::post('/update/{ticket}', [TicketsController::class, 'update'])->name('update');
+//     Route::delete('/delete/{ticket}', [TicketsController::class, 'delete'])->name('delete');
+// });
 Route::name('ticket_types.')->prefix('ticket_types')->group(function () {
     Route::get('/', [Ticket_TypeController::class, 'index'])->name('index');
     
-    Route::middleware(['auth', 'is_admin'])->group(function () {
+    Route::middleware(IsAdmin::class)->group(function () {
         Route::get('/create', [Ticket_TypeController::class, 'create'])->name('create');
         Route::post('/', [Ticket_TypeController::class, 'store'])->name('store');
         Route::get('/edit/{ticket_type}', [Ticket_TypeController::class, 'edit'])->name('edit');
@@ -72,16 +72,18 @@ Route::prefix('venues')->name('venues.')->group(function () {
 });
 
 Route::prefix('registrations')->name('registrations.')->middleware('auth')->group(function () {
-
-    Route::get('/', [RegistrationController::class, 'index'])->name('index');
-    Route::get('/create/{event}', [RegistrationController::class, 'create'])->name('create');
-    Route::post('/store/{event}', [RegistrationController::class, 'store'])->name('store');
-    Route::get('/edit/{registration}', [RegistrationController::class, 'edit'])->name('edit');
-    Route::put('/update/{registration}', [RegistrationController::class, 'update'])->name('update');
-    Route::delete('/delete/{registration}', [RegistrationController::class, 'delete'])->name('destroy');
-    Route::get('/thankyou', function () {
-        return view('registrations.thankyou');
-    })->name('registrations.thankyou');
+    Route::middleware(IsAdmin::class)->group(function () {
+       
+        Route::get('/', [RegistrationController::class, 'index'])->name('index');
+        Route::get('/create/{event}', [RegistrationController::class, 'create'])->name('create');
+        Route::post('/store/{event}', [RegistrationController::class, 'store'])->name('store');
+        Route::get('/edit/{registration}', [RegistrationController::class, 'edit'])->name('edit');
+        Route::put('/update/{registration}', [RegistrationController::class, 'update'])->name('update');
+        Route::delete('/delete/{registration}', [RegistrationController::class, 'delete'])->name('destroy');
+        Route::get('/thankyou', function () {
+            return view('registrations.thankyou');
+        })->name('registrations.thankyou');
+    });
 });
 Route::prefix('orders')->name('orders.')->group(function () {
     Route::get('/', [OrderController::class, 'showOrderForm'])->name('form');

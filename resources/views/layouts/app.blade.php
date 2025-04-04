@@ -193,75 +193,128 @@
 </head>
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="100">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="/home">
-                <i class="fas fa-calendar-star me-2"></i>EventMaster
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/events">Events</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/venues">Venues</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/tickets">Tickets</a>
-                    </li>
+   <!-- Navigation -->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/home">
+            <i class="fas fa-calendar-star me-2"></i>EventMaster
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/events">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/venues">Venues</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/ticket_types">Tickets</a>
+                </li>
+                @if (auth()->user() && auth()->user()->is_admin)
                     <li class="nav-item">
                         <a class="nav-link" href="/registrations">Registrations</a>
                     </li>
+                    
+                @endif
+                @auth
+                <li class="nav-item">
+                    <a class="nav-link position-relative" href="{{ route('orders.form') }}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ array_sum(array_column(session('cart', []), 'quantity')) }}
+                        </span>
+                    </a>
                 </li>
-                <ul class="navbar-nav ms-auto">
-                    <!-- ... bestaande nav items ... -->
-                    @auth
-                    <li class="nav-item">
-                        <a class="nav-link position-relative" href="{{ route('orders.form') }}">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{ array_sum(array_column(session('cart', []), 'quantity')) }}
-                            </span>
-                        </a>
-                    </li>
-                    @endauth
-                </ul>
-                <li class="nav-item ms-lg-3">
+                @endauth
+            </ul>
+            <ul class="navbar-nav ms-lg-3">
+                <li class="nav-item" id="auth-button-container">
                     @auth
                         <form method="POST" action="{{ route('logout') }}" id="logout-form">
                             @csrf
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary" id="auth-button">
                                 <i class="fas fa-sign-out-alt me-2"></i>Logout
                             </button>
                         </form>
                     @else
-                        <a class="btn btn-primary" href="{{ route('login') }}">
+                        <a class="btn btn-primary" href="{{ route('login') }}" id="auth-button">
                             <i class="fas fa-sign-in-alt me-2"></i>Login
                         </a>
                     @endauth
                 </li>
-                </ul>
-            </div>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
+<script>
+    document.getElementById('logout-form')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Verander de knop visueel direct
+        const authButton = document.getElementById('auth-button');
+        if (authButton) {
+            authButton.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Login';
+            authButton.href = "{{ route('login') }}";
+            authButton.onclick = null;
+            authButton.classList.remove('btn-logout');
+            authButton.classList.add('btn-login');
+        }
+        
+        // Verstuur het logout verzoek
+        fetch(this.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: new URLSearchParams(new FormData(this))
+        }).then(response => {
+            if (response.ok) {
+                window.location.href = "{{ route('home') }}";
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+
+<style>
+    .btn {
+        transition: all 0.3s ease;
+    }
+    .btn-login {
+        background: white;
+        color: #4361ee;
+    }
+    .btn-logout {
+        background: white;
+        color: #4361ee;
+    }
+</style>
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container text-center hero-content" data-aos="fade-up">
             <h1 class="hero-title">Elevate Your Event Experience</h1>
             <p class="hero-subtitle">Streamline the planning and coordination of all your events with our premium management platform</p>
             <div class="d-flex justify-content-center gap-3">
-                <a href="{{ route('register') }}" class="btn btn-primary btn-lg">
-                    <i class="fas fa-rocket me-2"></i>Register Now!
-                </a>
-                <a href="{{route('events.calendar')}}" class="btn btn-outline-light btn-lg" >
+                @guest
+                    <a href="{{ route('register') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-rocket me-2"></i>Register Now!
+                    </a>
+                @else
+                    <a href="{{ route('ticket_types.index') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-ticket-alt me-2"></i>View Tickets
+                    </a>
+                @endguest
+                
+                <a href="{{ route('events.calendar') }}" class="btn btn-outline-light btn-lg">
                     <i class="fas fa-calendar-alt me-2"></i>Explore Events
                 </a>
             </div><br><br><br>
@@ -298,6 +351,7 @@
                         <li class="mb-2"><a href="/home" class="text-white-50">Home</a></li>
                         <li class="mb-2"><a href="/events" class="text-white-50">Events</a></li>
                         <li class="mb-2"><a href="/venues" class="text-white-50">Venues</a></li>
+                        <li class="mb-2"><a href="/ticket_types" class="text-white-50">Tickets</a></li>
                         <li class="mb-2"><a href="/registrations" class="text-white-50">Registrations</a></li>
                     </ul>
                 </div>
