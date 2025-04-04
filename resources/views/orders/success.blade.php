@@ -28,7 +28,7 @@
 
             <h2 class="text-lg font-semibold mb-4">Do you have any feedback for us?</h2>
             <div class="flex justify-center space-x-6">
-                {{-- <a href="{{ route('feedback.create') }}" class="btn-action btn-primary text-sm px-5 py-2 rounded inline-flex items-center"> --}}
+                <a href="{{ route('feedback.create') }}" class="btn-action btn-secondary text-sm px-5 py-2 rounded inline-flex items-center">
                     <i class="fas fa-comment-alt mr-2"></i> Yes
                 </a>
                 <a href="{{ route('home') }}" class="btn-action btn-secondary text-sm px-5 py-2 rounded inline-flex items-center">

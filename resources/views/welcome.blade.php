@@ -16,9 +16,6 @@
         <li><a href="{{ route('events.index') }}">Overzicht Events</a></li>
         <li><a href="{{ route('events.create') }}">Event Aanmaken</a></li>
 
-        <h2>Tickets</h2>
-        <li><a href="{{ route('tickets.index') }}">Overzicht Tickets</a></li>
-        <li><a href="{{ route('tickets.create') }}">Ticket Aanmaken</a></li>
 
         <h2>Ticket Types</h2>
         <li><a href="{{ route('ticket_types.index') }}">Overzicht Ticket Types</a></li>

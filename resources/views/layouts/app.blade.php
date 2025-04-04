@@ -216,9 +216,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/ticket_types">Tickets</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/registrations">Registrations</a>
-                </li>
+                @if (auth()->user() && auth()->user()->is_admin)
+                    <li class="nav-item">
+                        <a class="nav-link" href="/registrations">Registrations</a>
+                    </li>
+                    
+                @endif
                 @auth
                 <li class="nav-item">
                     <a class="nav-link position-relative" href="{{ route('orders.form') }}">
@@ -302,11 +305,16 @@
             <p class="hero-subtitle">Streamline the planning and coordination of all your events with our premium management platform</p>
             <div class="d-flex justify-content-center gap-3">
                 @guest
-                <a href="{{ route('register') }}" class="btn btn-primary btn-lg">
-                    <i class="fas fa-rocket me-2"></i>Register Now!
-                </a>
-            @endguest
-                <a href="{{route('events.calendar')}}" class="btn btn-outline-light btn-lg" >
+                    <a href="{{ route('register') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-rocket me-2"></i>Register Now!
+                    </a>
+                @else
+                    <a href="{{ route('ticket_types.index') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-ticket-alt me-2"></i>View Tickets
+                    </a>
+                @endguest
+                
+                <a href="{{ route('events.calendar') }}" class="btn btn-outline-light btn-lg">
                     <i class="fas fa-calendar-alt me-2"></i>Explore Events
                 </a>
             </div><br><br><br>
