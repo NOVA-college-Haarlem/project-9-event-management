@@ -7,6 +7,7 @@
                     <a href="{{ route('events.create') }}" class="btn btn-success">➕ Create Event</a>
                 @endif
             @endauth
+            <a href="{{ route('events.calendar') }}" class="btn btn-outline-primary">📅 View Calendar</a>
         </div>
         
         @if ($events->isEmpty())
@@ -25,18 +26,18 @@
                                         {{ ucfirst($event->status) }}
                                     </span>
                                 </div>
-                                @auth
-                                    @if(auth()->user()->is_admin)
-                                        <div class="mt-3 d-flex gap-2">
-                                            <a href="{{ route('events.edit', $event->id) }}" class="btn btn-warning btn-sm">✏️ Edit</a>
-                                            <form action="{{ route('events.delete', $event->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">🗑 Delete</button>
-                                            </form>
-                                        </div>
+                                <div class="mt-3 d-flex gap-2">
+                                    <a href="{{ route('registrations.create', $event->id) }}" class="btn btn-warning btn-sm" >📝 Register</a>
+                                    @if (auth()->user()->is_admin)
+                                        
+                                    <a href="{{ route('events.edit', $event->id) }}" class="btn btn-warning btn-sm">✏️ Edit</a>
+                                    <form action="{{ route('events.delete', $event->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">🗑 Delete</button>
+                                    </form>
                                     @endif
-                                @endauth
+                                </div>
                             </div>
                         </div>
                     </div>

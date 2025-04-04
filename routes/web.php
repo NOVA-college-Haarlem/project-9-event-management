@@ -8,6 +8,7 @@ use App\Http\Controllers\Ticket_TypeController;
 use App\Http\Controllers\TicketsController;
 use App\Http\Controllers\VenuesController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\FeedbackController;
 
 
 Route::get('/', function () {
@@ -27,6 +28,8 @@ Route::name("events.")->prefix("events")->group(function () {
     Route::get('/edit/{event}', [EventsController::class, 'edit'])->name('edit');
     Route::post('/update/{event}', [EventsController::class, 'update'])->name('update');
     Route::delete('/delete/{event}', [EventsController::class, 'delete'])->name('delete');
+    Route::get('/calendar', [EventsController::class, 'calendar'])->name('calendar');
+
 });
 
 Route::name("tickets.")->prefix("tickets")->group(function () {
@@ -89,5 +92,12 @@ Route::prefix('orders')->name('orders.')->group(function () {
 // Cart routes
 Route::post('/cart/add', [OrderController::class, 'addToCart'])->name('cart.add');
 Route::post('/cart/remove/{id}', [OrderController::class, 'removeFromCart'])->name('cart.remove');
+
+Route::prefix('feedback')->name('feedback.')->middleware('auth')->group(function () {
+    Route::get('/', [FeedbackController::class, 'create'])->name('create');
+    Route::post('/', [FeedbackController::class, 'store'])->name('store');
+});
+
+
 
 require __DIR__ . '/auth.php';
