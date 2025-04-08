@@ -10,6 +10,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
+                    
+                    <!-- Simpele ticket link toegevoegd -->
+                    <div class="mt-4">
+                        <a href="{{ route('ticket_types.index') }}" class="text-blue-500 hover:underline">
+                            → View available tickets
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
